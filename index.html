@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#B4BCAF">
+<link rel="apple-touch-icon" href="icon.svg">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="釜山檢核表">
+<title>釜山 5 天｜出國前檢核表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#B4BCAF;--card:#FFFFFF;--card2:#E9ECE6;--soft:#EEF0EB;--ink:#0E0F0C;--sub:#4B5247;
+  --line:#D0D6CA;--edge:#6E776A;--acc:#E2FF6F;--sage:#5F6B5E;
+  --blk:#0E0F0C;--onblk:#FFFFFF;--warnfg:#E2FF6F;--k:1;
+  --stripe:repeating-linear-gradient(135deg,rgba(14,15,12,.16) 0 7px,rgba(14,15,12,.04) 7px 14px);
+}
+.dark{--ground:#121410;--card:#1E221B;--card2:#272C23;--soft:#2B3027;--ink:#F2F4EE;--sub:#B5BCAD;--line:#3A4035;--edge:#8C957F;--sage:#3D463B;
+  --blk:#F2F4EE;--onblk:#0E0F0C;--warnfg:#0E0F0C;
+  --stripe:repeating-linear-gradient(135deg,rgba(242,244,238,.22) 0 7px,rgba(242,244,238,.06) 7px 14px);}
+.big{--k:1.18}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-user-select:none!important;user-select:none!important;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+input,textarea{-webkit-user-select:text!important;user-select:text!important}
+::selection{background:transparent;color:inherit}
+input::selection,textarea::selection{background:var(--acc);color:#0E0F0C}
+html{background:var(--ground)}
+body{font-family:'Inter Tight','Noto Sans TC',system-ui,sans-serif;font-size:calc(15px*var(--k));line-height:1.5;color:var(--ink);background:var(--ground);min-height:100vh;-webkit-text-size-adjust:100%}
+body,button,input,textarea,a,.card,.item,.pill{transition:background-color .2s,color .2s,border-color .2s,opacity .2s,transform .2s}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer;border:0;background:none}
+a{color:inherit;text-decoration:none}
+:focus{outline:none}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.wrap{max-width:1360px;margin:0 auto;padding:24px}
+
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 24px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:48px;height:48px;border-radius:35%;background:#0E0F0C;display:grid;place-items:center;flex:none}
+.brand b{display:block;font-weight:700;letter-spacing:.06em;font-size:calc(17px*var(--k));line-height:1.2}
+.brand span{display:block;font-size:calc(12px*var(--k));letter-spacing:.2em;color:var(--sub)}
+.tools{display:flex;gap:8px}
+.ibtn{width:48px;height:48px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-weight:500;font-size:calc(14px*var(--k))}
+.ibtn:hover{transform:translateY(-1px)}.ibtn:active{transform:scale(.97)}
+.ibtn[aria-pressed=true]{background:var(--blk);color:var(--onblk);border-color:var(--blk)}
+
+.seg{position:relative;display:flex;background:var(--card);border-radius:999px;padding:5px;touch-action:pan-y;min-height:52px}
+.seg .thumb{position:absolute;top:5px;bottom:5px;left:5px;width:calc((100% - 10px)/var(--n));border-radius:999px;background:var(--blk);transition:transform .55s cubic-bezier(.3,1.7,.5,1)}
+.seg.drag .thumb{transition:none}
+.seg.press .thumb{scale:.94}
+.seg button{position:relative;z-index:1;flex:1 1 0;min-width:0;min-height:42px;border-radius:999px;font-weight:500;font-size:calc(14px*var(--k));text-align:center;white-space:nowrap;padding:0 4px}
+.seg button[aria-selected=true]{color:var(--onblk)}
+#tabs{flex:1 1 420px;max-width:640px}
+
+.grid{display:flex;flex-wrap:wrap;gap:20px;align-items:stretch}
+.card{background:var(--card);border-radius:32px;padding:24px;flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:16px}
+.card.w2{flex:2 1 520px}.card.sm{flex:1 1 200px;justify-content:center;align-items:center}
+.card h2{font-weight:400;font-size:calc(24px*var(--k));line-height:1.2;text-align:center}
+.card.lime{background:var(--acc);color:#0E0F0C}
+.card.sage{background:var(--sage);color:#fff}
+.card.black{background:var(--blk);color:var(--onblk)}
+.view{animation:in .25s both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h1{font-weight:400;font-size:calc(40px*var(--k));letter-spacing:-.02em;line-height:1.08;text-align:center;margin:8px 0 8px}
+.when{text-align:center;margin-bottom:20px}
+.lab{font-size:calc(13px*var(--k));font-weight:700;letter-spacing:.08em;text-align:center}
+.num{font-size:calc(48px*var(--k));line-height:1;text-align:center;font-weight:400;letter-spacing:-.02em}
+.num small{font-size:.42em;margin-left:.2em;letter-spacing:0}
+.center{text-align:center}
+.sub{color:var(--sub);font-size:calc(13px*var(--k))}
+.sage .sub,.black .sub{color:inherit;opacity:.85}
+
+.bar{height:8px;border-radius:999px;background:#fff;overflow:hidden}
+.bar i{display:block;height:100%;background:#0E0F0C;border-radius:999px;transition:width .3s}
+.heroRow{display:flex;gap:10px;align-items:center}
+.ghost{flex:1;min-width:0;min-height:48px;border-radius:999px;border:1px solid #0E0F0C;padding:6px 20px;text-align:center;display:grid;place-items:center;font-weight:500;color:#0E0F0C}
+.ghost span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.go{width:48px;height:48px;border-radius:50%;background:#0E0F0C;color:#fff;display:grid;place-items:center;flex:none}
+.go:hover,.btn:hover,.lk:hover,.big-lk:hover{transform:translateY(-1px)}
+.go:active,.btn:active,.lk:active,.big-lk:active{transform:scale(.97)}
+
+.btn{min-height:48px;min-width:132px;padding:0 22px;border-radius:999px;background:var(--card);border:1px solid var(--line);font-weight:500;text-align:center;display:inline-grid;place-items:center}
+.btn.pri{background:var(--blk);color:var(--onblk);border-color:var(--blk)}
+.black .btn.pri{background:var(--acc);color:#0E0F0C;border-color:var(--acc)}
+.black .btn{background:transparent;color:inherit;border-color:currentColor}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.pill{display:inline-grid;place-items:center;min-height:32px;padding:2px 14px;border-radius:999px;background:var(--soft);font-size:calc(13px*var(--k));font-weight:500;text-align:center;flex:none}
+.pill.k{background:var(--blk);color:var(--warnfg)}
+.pill.d{background:transparent;border:1px dashed var(--edge)}
+.pill.l{background:var(--acc);color:#0E0F0C}
+.pill.n{background:var(--blk);color:var(--onblk)}
+
+/* 連結按鈕 */
+.lk{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;padding:0 16px;border-radius:999px;background:var(--blk);color:var(--onblk);font-weight:500;font-size:calc(14px*var(--k));white-space:nowrap;flex:none}
+.lk.lt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.big-lk{flex:1 1 110px;min-height:92px;border-radius:28px;background:var(--card2);padding:14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;font-weight:500}
+.big-lk .ic{width:40px;height:40px;border-radius:50%;background:var(--blk);color:var(--onblk);display:grid;place-items:center}
+.quick{display:flex;flex-wrap:wrap;gap:10px}
+
+/* 清單 */
+.rows{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;padding:8px 12px 8px 8px;border-radius:28px;background:var(--card2)}
+.item .main{flex:1 1 140px;display:flex;align-items:center;gap:12px;min-height:48px;text-align:left;border-radius:22px;padding:4px}
+.item .main:active{transform:scale(.99)}
+.tx{flex:1;min-width:0}
+.tx b{display:block;font-weight:500}
+.tx i{display:block;font-style:normal;color:var(--sub);font-size:calc(13px*var(--k))}
+.ck{width:32px;height:32px;border-radius:50%;border:2px dashed var(--edge);display:grid;place-items:center;flex:none;transition:background-color .2s,border-color .2s,transform .25s cubic-bezier(.3,1.7,.5,1)}
+.ck svg{opacity:0;transition:opacity .2s}
+.main[aria-pressed=true] .ck{background:var(--acc);border:2px solid var(--acc);transform:scale(1.06)}
+.main[aria-pressed=true] .ck svg{opacity:1}
+.main[aria-pressed=true] .tx b{color:var(--sub)}
+.item.flash{box-shadow:0 0 0 2px var(--ink)}
+.tags{display:flex;gap:6px;flex:none}
+.grp{display:flex;align-items:center;justify-content:center;gap:10px}
+.x{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;flex:none;border:1px solid var(--line);background:var(--card)}
+
+/* 規定 */
+.rule{display:flex;align-items:center;gap:12px;padding:10px 14px 10px 12px;border-radius:28px;background:var(--card2);min-height:52px}
+.mk{width:28px;height:28px;flex:none;display:grid;place-items:center}
+.mk.ok{border-radius:50%;background:var(--blk);color:var(--onblk)}
+.mk.no{border-radius:8px;background-image:var(--stripe);color:var(--ink)}
+.mk.inf{border-radius:50%;border:2px solid var(--edge)}
+.mk.inf::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--ink)}
+
+.prog{height:22px;border-radius:999px;background-image:var(--stripe);overflow:hidden;flex:1;min-width:60px}
+.prog i{display:block;height:100%;background:var(--blk);border-radius:999px;transition:width .3s}
+.srow{display:flex;align-items:center;gap:12px;width:100%;min-height:56px;padding:8px 8px 8px 20px;border-radius:999px;background:var(--card2)}
+.srow b{font-weight:500;min-width:4.2em;text-align:left}
+.srow .pill{min-width:64px}
+.srow:hover{transform:translateY(-1px)}
+
+.days{display:flex;gap:8px;justify-content:center}
+.day{flex:1 1 0;max-width:84px;min-height:84px;border-radius:999px;background:var(--card2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.day b{font-weight:400;font-size:calc(22px*var(--k));line-height:1}
+.day span{font-size:calc(12px*var(--k))}
+.day[aria-selected=true]{background:var(--acc);color:#0E0F0C}
+.meals{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+
+.kv{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:flex-end;padding:10px 12px 10px 20px;border-radius:28px;background:var(--card2);min-height:60px}
+.kv>div:first-child{flex:1 1 96px;min-width:0}
+.kv b{font-weight:500}
+
+.field{display:flex;gap:8px;flex-wrap:wrap}
+.field input{flex:1 1 180px;min-height:48px;border-radius:999px;border:1px solid var(--edge);background:var(--card);padding:0 20px;text-align:center}
+textarea{width:100%;min-height:120px;border-radius:24px;border:1px solid var(--edge);background:var(--card);padding:16px 20px;resize:vertical;line-height:1.6}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;align-items:center;margin-bottom:20px}
+.toolbar .seg{width:230px}
+.exp{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s}
+.exp.open{grid-template-rows:1fr}
+.exp>div{overflow:hidden;min-height:0}
+.delta{font-size:calc(44px*var(--k));line-height:1;text-align:center}
+.delta small{font-size:.42em;margin-left:.2em}
+.empty{background-image:var(--stripe);border-radius:28px;padding:20px;display:flex;flex-direction:column;gap:12px;align-items:center;text-align:center}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E2FF6F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12.5l5 5L20 6.5"/></svg></div>
+      <div><b>釜山玩樂趣 5 天</b><span>PUS05261126D</span></div>
+    </div>
+    <div class="seg" id="tabs" role="tablist" aria-label="分頁"></div>
+    <div class="tools">
+      <button class="ibtn" id="tDark" aria-pressed="false" aria-label="深色模式"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg></button>
+      <button class="ibtn" id="tBig" aria-pressed="false" aria-label="大字模式">大字</button>
+    </div>
+  </header>
+  <main id="main"></main>
+</div>
+
+<script>
+const gmap=q=>'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);
+const U={
+  arrival:'https://www.e-arrivalcard.go.kr',keta:'https://www.k-eta.go.kr',
+  dep:'https://web.taoyuan-airport.com/flight_depart',arr:'https://web.taoyuan-airport.com/flight_arrival',
+  wx:'https://www.cwa.gov.tw/V8/C/W/world.html',bag:'https://www.airbusan.com/content/common/service/baggage/',
+  batt:'https://www.airbusan.com/content/common/service/baggage/restriction',
+  tax:'https://english.visitkorea.or.kr/svc/contents/contentsView.do?vcontsId=248765',gtf:'https://web.gtfetrs.com/chulgukhang',
+  meat:'https://www.aphia.gov.tw/ws.php?id=10726',plant:'https://www.aphia.gov.tw/ws.php?id=10733',customs:'https://web.customs.gov.tw',
+  boca:'https://www.boca.gov.tw/cp-87-2121-7a5da-1.html',pus:'https://www.roc-taiwan.org/krpus/index.html',
+  papago:'https://papago.naver.com',nmap:'https://map.naver.com',vk:'https://big5chinese.visitkorea.or.kr/cht/',
+  h1:gmap('Crown Harbor Hotel Busan'),h2:gmap('Lotte Hotel & Resort Gimhae'),t2:gmap('桃園國際機場第二航廈')
+};
+const TABS=[['home','首頁'],['before','行前'],['pack','行李'],['depart','去程'],['korea','釜山'],['return','回程']];
+/* todo: [id, 標題, 說明, [按鈕文字, 網址], 標籤]　rules: [ok|no|inf, 文字, 說明] */
+const S={
+before:{title:'出發前要辦的事',when:'現在 → 11/25',cards:[
+ {h:'證件',todo:[
+  ['b1','看護照效期：還有 6 個月以上','台灣護照免簽證，也不用辦 K-ETA'],
+  ['b2','跟領隊確認電子入境卡有幫你填','團體由領隊統一填寫；要自己填的話網址結尾是 .go.kr',['官網',U.arrival]],
+  ['b3','印護照影本，帶 2 張大頭照'],
+  ['b4','外國護照：辦 K-ETA 或簽證','出發前 72 小時完成，另帶回程機票證明',['K-ETA 官網',U.keta],'外籍才要'],
+  ['b5','役男：申請出境許可','','', '役男才要']]},
+ {h:'保險與藥品',todo:[
+  ['b6','買旅遊平安險＋海外醫療險'],
+  ['b7','準備常備藥和快篩','腸胃藥、感冒藥、暈車藥、自己的慢性病藥'],
+  ['b8','特殊藥物：帶醫師證明，先告訴業務','','', '有用藥才要']]},
+ {h:'先告訴旅行社',todo:[
+  ['b9','吃素或特殊餐','出發前 2 天（不含假日）'],
+  ['b10','長者、孕婦、嬰幼兒、要單人房','出發前 3 個工作日，太晚可能加收費用'],
+  ['b11','問領隊：託運到底幾公斤','行前資料寫 23 公斤，釜山航空官網一般票是 15 公斤',['官網規定',U.bag]]]},
+ {h:'錢與網路',todo:[
+  ['b12','換韓元，帶 VISA 或 JCB 信用卡'],
+  ['b13','領贈品：韓國 SIM 卡、轉接插頭','每人各一，SIM 卡每天 1GB'],
+  ['b14','出發前 2–3 天查釜山天氣','目前預報 13–16° / 6–9°',['查天氣',U.wx]]]}
+]},
+pack:{title:'我的行李',when:'出發前一晚',cards:[
+ {h:'已經有的',todo:[
+  ['p24','隨身包','上機只能帶這個，10 公斤內','',['隨身包']],
+  ['p1','護照','','',['隨身包']],
+  ['p2','錢包','韓元、信用卡','',['隨身包']],
+  ['p3','大頭照','兩吋 8 張','',['隨身包']],
+  ['p4','行充','線頭和孔貼膠帶','',['隨身包','夾鏈袋']],
+  ['p25','藍芽耳機','有電池，帶上機','',['隨身包']],
+  ['p5','充電器、手機充電線','','',['隨身包']],
+  ['p6','水壺','過安檢前倒空','',['隨身包']],
+  ['p7','刮鬍刀','電動的放隨身包，手動的改放行李箱','',['隨身包']],
+  ['p26','行李箱','託運，抓 15 公斤內','',['行李箱']],
+  ['p8','衣服','','',['行李箱']],
+  ['p9','拖鞋','','',['行李箱']],
+  ['p10','浴巾','','',['行李箱']],
+  ['p11','牙刷','','',['行李箱']]]},
+ {h:'還缺',todo:[
+  ['p15','隨身液體','保養品、藥水，每瓶 100 毫升內','',['隨身包','夾鏈袋']],
+  ['p16','牙膏','韓國飯店不提供','',['行李箱']],
+  ['p17','洗髮精、沐浴乳','韓國飯店不提供','',['行李箱']],
+  ['p18','保暖外套','17:00 到釜山就冷，穿著或帶上機','',['隨身包']],
+  ['p19','常備藥','腸胃藥、感冒藥','',['隨身包']],
+  ['p20','雨傘或輕便雨衣','','',['行李箱']],
+  ['p21','夾鏈袋、一小段膠帶','','',['隨身包']],
+  ['p22','衛生紙、濕紙巾','','',['隨身包']],
+  ['p23','轉接插頭、SIM 卡','集合時跟領隊拿','',['隨身包']]]},
+ {h:'規定',rules:[
+  ['ok','行充只能手提','每人最多 2 顆'],
+  ['no','手提液體超過 100 毫升'],
+  ['no','水壺裝水過安檢']],link:['電池規定',U.batt]}
+]},
+depart:{title:'去程：桃園機場',when:'11/26（四）',cards:[
+ {h:'照順序做',todo:[
+  ['d0','8:30 前從新竹出門'],
+  ['d1','出門前吃飽','早餐、午餐自理，飛機上沒有餐'],
+  ['d2','10:55 到第二航廈 3 樓','釜山航空櫃台，當天看出境看板確認',['怎麼去',U.t2],'10:55'],
+  ['d3','找領隊徐健誠報到','領隊幫忙辦登機和託運'],
+  ['d4','安檢：拿出液體夾鏈袋'],
+  ['d5','13:25 起飛，提早到登機門','BX 572',['查航班',U.dep]]]},
+ {h:'飛機上',rules:[
+  ['ok','行動電源放座位下方或隨身包'],
+  ['no','使用行動電源'],
+  ['no','用機上 USB 充電'],
+  ['no','行動電源放頭頂行李艙'],
+  ['inf','座位由航空公司排，不能選位'],
+  ['inf','沒到機場會被罰','單程約 USD 120–500']]}
+]},
+korea:{title:'在釜山',when:'11/26 – 11/30',cards:[
+ {h:'記得做',todo:[
+  ['k1','購物滿 15,000 韓元：出示護照拿退稅單','找有 TAX FREE 標示的店',['退稅說明',U.tax]],
+  ['k2','11/27、11/29 晚餐自己吃','身上留韓元'],
+  ['k3','11/29 早上行李全部帶走','當晚換住樂天飯店',['新飯店地圖',U.h2],'換飯店'],
+  ['k4','晚上外出先告訴領隊']]},
+ {h:'飯店',rules:[
+  ['no','房間內抽菸','罰款自付'],
+  ['no','電熱水壺煮泡麵、泡茶','只能煮水'],
+  ['no','用多孔延長線'],
+  ['no','一個人去游泳池'],
+  ['inf','房內零食、冰箱飲料要付錢'],
+  ['inf','26° 以上才有冷氣，18° 以下才有暖氣']]},
+ {h:'團體行動',rules:[
+  ['ok','準時集合'],
+  ['ok','護照和錢隨身帶','不放房間、行李箱、車上'],
+  ['no','中途脫隊'],
+  ['inf','不參加的景點不退費'],
+  ['inf','遊覽車上車後才開空調']]},
+ {h:'滑車與汗蒸幕',rules:[
+  ['ok','身高 110 公分以上可自己坐滑車'],
+  ['no','孕婦、喝酒後坐滑車'],
+  ['inf','85–110 公分的小孩要大人陪'],
+  ['inf','心臟病、高血壓、孕婦不要勉強']]},
+ {h:'好用工具',links:[['翻譯 Papago',U.papago],['Naver 地圖',U.nmap],['韓國觀光公社',U.vk],['外交部急難救助',U.boca]]}
+]},
+return:{title:'回程：金海機場 → 桃園',when:'11/30（一）',cards:[
+ {h:'照順序做',todo:[
+  ['r1','行李秤重','每人個別報到'],
+  ['r2','託運前先辦退稅','2 樓 4 號門旁的機器，掃護照和退稅單',['退稅櫃台',U.gtf],'先辦'],
+  ['r3','退稅金超過 75,000 韓元：商品給海關看','看完再託運'],
+  ['r4','過安檢後領退稅金','4 號登機門旁'],
+  ['r5','15:00 起飛，16:40 到桃園','BX 575',['查航班',U.arr]],
+  ['r6','不確定能不能帶：到檢疫櫃台主動申報','主動申報不罰'],
+  ['r7','掃行程表 QR code 填滿意度']]},
+ {h:'不能帶回台灣',rules:[
+  ['no','肉類製品','肉乾、香腸、火腿、泡麵裡的肉包；罰 20 萬元起'],
+  ['no','新鮮水果、植物'],
+  ['no','鮮奶、生乳捲'],
+  ['no','電子菸、加熱菸'],
+  ['no','幫別人帶東西']],link:['防檢署規定',U.meat]},
+ {h:'免稅可以帶',rules:[
+  ['ok','酒 1.5 公升','滿 18 歲'],
+  ['ok','香菸 200 支','滿 20 歲'],
+  ['ok','其他物品合計 35,000 元內','超過走紅線申報'],
+  ['ok','現金：外幣等值 1 萬美元內']],link:['關務署規定',U.customs]}
+]}};
+const DAYS=[
+ {d:26,w:'四',t:'13° / 6°',stops:[['10:55 桃園機場第二航廈集合',U.t2],['13:25 起飛 → 17:00 抵達釜山'],['入住 Crown Harbor Hotel',U.h1]],meals:['早餐 自理','午餐 自理','晚餐 豬肉湯飯']},
+ {d:27,w:'五',t:'14° / 8°',stops:[['LUGE 滑車＋纜車',gmap('Skyline Luge Busan')],['釜山樂天世界',gmap('Lotte World Adventure Busan')]],meals:['早餐 飯店','午餐 豬腳炸豬排','晚餐 自理']},
+ {d:28,w:'六',t:'16° / 9°',stops:[['天空膠囊列車',gmap('Haeundae Blue Line Park Mipo Station')],['青沙浦天空步道',gmap('Cheongsapo Daritdol Skywalk')],['白淺灘文化村',gmap('Huinnyeoul Culture Village')],['海景汗蒸幕 Club D Oasis',gmap('Club D Oasis Busan')]],meals:['早餐 飯店','午餐 炭烤豬肉吃到飽','晚餐 海鮮鍋']},
+ {d:29,w:'日',t:'16° / 9°',stops:[['彩妝店'],['甘川洞彩繪文化村',gmap('Gamcheon Culture Village')],['南浦洞・光復洞・BIFF 廣場',gmap('BIFF Square Busan')],['樂天超市'],['入住 Lotte Hotel Gimhae',U.h2]],meals:['早餐 飯店','午餐 辣炒雞排','晚餐 自理']},
+ {d:30,w:'一',t:'15° / 8°',stops:[['飯店 → 釜山金海機場',gmap('Gimhae International Airport')],['15:00 起飛 → 16:40 抵達桃園']],meals:['早餐 飯店','午餐 自理','晚餐 自理']}];
+
+const KEY='busan1126v4';
+let st={done:{},custom:[],memo:'',dark:false,big:false,only:{}};
+try{Object.assign(st,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+let tab='home',day=0,resetOpen=false;
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sv=(p,w=16,sw=2.5)=>`<svg width="${w}" height="${w}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const CHECK='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0E0F0C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const I={ok:sv('<path d="M5 12.5l4.5 4.5L19 7.5"/>',14,3),no:sv('<path d="M6 6l12 12M18 6L6 18"/>',14,3),arrow:sv('<path d="M5 12h14M13 6l6 6-6 6"/>',20,2),
+ out:sv('<path d="M8 16L17 7M9 7h8v8"/>',14),x:sv('<path d="M6 6l12 12M18 6L6 18"/>',16,2),
+ pen:sv('<path d="M4 20h4L19 9l-4-4L4 16v4z"/>',20,2),plane:sv('<path d="M3 13l18-7-7 16-3-7-8-2z"/>',20,2),sun:sv('<circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6L17 7M7 17l-1.4 1.4"/>',20,2),
+ pin:sv('<path d="M12 21s7-6.2 7-11a7 7 0 0 0-14 0c0 4.800 7 11 7 11z"/><circle cx="12" cy="10" r="2.500"/>',20,2),chat:sv('<path d="M4 5h16v11H9l-5 4V5z"/>',20,2),coin:sv('<circle cx="12" cy="12" r="8"/><path d="M9 9l3 4 3-4M12 13v4M9.500 14h5"/>',20,2)};
+const link=(l,cls='')=>`<a class="lk ${cls}" href="${esc(l[1])}" target="_blank" rel="noopener">${esc(l[0])}${I.out}</a>`;
+
+function items(id){
+  const a=[];S[id].cards.forEach(c=>(c.todo||[]).forEach(i=>a.push(i)));
+  if(id==='pack')st.custom.forEach(c=>a.push([c.id,c.t]));
+  return a;
+}
+const count=id=>{const a=items(id);return[a.filter(i=>st.done[i[0]]).length,a.length]};
+function total(){let d=0,t=0;Object.keys(S).forEach(k=>{const c=count(k);d+=c[0];t+=c[1]});return[d,t]}
+function nextTodo(){for(const k of Object.keys(S))for(const i of items(k))if(!st.done[i[0]])return{k,i};return null}
+
+function seg(el,labels,idx,cb){
+  el.style.setProperty('--n',labels.length);
+  el.innerHTML='<span class="thumb"></span>'+labels.map((l,i)=>`<button role="tab" aria-selected="${i===idx}">${l}</button>`).join('');
+  const th=el.firstChild,n=labels.length;let cur=idx,sx=0,drag=false,pos=idx,down=false;
+  const put=(p,sq)=>th.style.transform=`translateX(${p*100}%)`+(sq?' scale(1.06,.9)':'');
+  const set=(i,fire)=>{cur=i;put(i);[...el.querySelectorAll('button')].forEach((b,j)=>b.setAttribute('aria-selected',j===i));if(fire)cb(i)};
+  put(idx);
+  const at=x=>{const r=el.getBoundingClientRect();return(x-r.left-5)/((r.width-10)/n)};
+  el.onpointerdown=e=>{down=true;drag=false;sx=e.clientX;el.classList.add('press');el.setPointerCapture(e.pointerId)};
+  el.onpointermove=e=>{if(!down)return;if(!drag&&Math.abs(e.clientX-sx)<6)return;drag=true;el.classList.add('drag');
+    let p=at(e.clientX)-.5,max=n-1;if(p<0)p=Math.max(p*.25,-.07*n);if(p>max)p=max+Math.min((p-max)*.25,.07*n);pos=p;put(p,true)};
+  el.onpointerup=e=>{if(!down)return;down=false;el.classList.remove('press','drag');
+    const i=drag?Math.round(Math.min(n-1,Math.max(0,pos))):Math.min(n-1,Math.max(0,Math.floor(at(e.clientX))));
+    drag=false;if(i!==cur)set(i,true);else put(cur)};
+  el.onpointercancel=()=>{down=false;el.classList.remove('press','drag');put(cur)};
+  el.onkeydown=e=>{const d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(d&&cur+d>=0&&cur+d<n){set(cur+d,true);el.querySelectorAll('button')[cur].focus()}};
+  return{set:i=>set(i,false)};
+}
+
+function countdown(){
+  const n=new Date(),a=Date.UTC(n.getFullYear(),n.getMonth(),n.getDate()),diff=Math.round((Date.UTC(2026,10,26)-a)/864e5);
+  if(diff>0)return['距離出發',diff,'天'];
+  if(diff===0)return['出發日','今','天'];
+  if(diff>=-4)return['旅程進行中','第 '+(1-diff),'天'];
+  return['旅程','已結束',''];
+}
+function itemHTML(i,custom){
+  const [id,t,s,l,tag]=i,on=!!st.done[id];
+  return `<div class="item" data-item="${id}"><button class="main" data-id="${id}" aria-pressed="${on}"><span class="ck">${CHECK}</span>
+  <span class="tx"><b>${esc(t)}</b>${s?`<i>${esc(s)}</i>`:''}</span></button>
+  ${Array.isArray(tag)?`<span class="tags">${tag.map(g=>`<span class="pill ${g==='隨身包'?'n':g==='夾鏈袋'?'d':''}">${g}</span>`).join('')}</span>`:tag?`<span class="pill ${/才要/.test(tag)?'d':'k'}">${tag}</span>`:''}${l?link(l):''}
+  ${custom?`<button class="x" data-del="${id}" aria-label="刪除 ${esc(t)}">${I.x}</button>`:''}</div>`;
+}
+const ruleHTML=r=>`<div class="rule"><span class="mk ${r[0]}">${r[0]==='inf'?'':I[r[0]]}</span><span class="tx"><b>${esc(r[1])}</b>${r[2]?`<i>${esc(r[2])}</i>`:''}</span><span class="pill ${r[0]==='no'?'k':''}">${r[0]==='ok'?'可以':r[0]==='no'?'不行':'注意'}</span></div>`;
+
+function home(){
+  const [d,t]=total(),pct=Math.round(d/t*100),nx=nextTodo(),cd=countdown(),D=DAYS[day];
+  const big=(ic,txt,url)=>`<a class="big-lk" href="${esc(url)}" target="_blank" rel="noopener"><span class="ic">${ic}</span>${txt}</a>`;
+  const tel=(n,h)=>`<a class="lk lt" href="tel:${h}">${n}</a>`;
+  return `<h1>出國前檢核表</h1><div class="when sub">11/26（四）– 11/30（一）</div>
+  <div class="grid">
+    <section class="card lime w2" style="justify-content:space-between">
+      <div class="lab">完成進度</div>
+      <div class="num" style="font-size:calc(52px*var(--k))">${pct}<small>%</small></div>
+      <div class="center" style="font-weight:500">${d} / ${t} 項</div>
+      <div class="bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="完成進度"><i style="width:${pct}%"></i></div>
+      <div class="heroRow"><button class="ghost" id="heroGo"><span>${nx?'下一步：'+esc(nx.i[1]):'全部完成'}</span></button>
+      <button class="go" id="heroGo2" aria-label="前往下一步">${I.arrow}</button></div>
+    </section>
+    <section class="card sage sm"><div class="lab">${cd[0]}</div><div class="num">${cd[1]}<small>${cd[2]}</small></div></section>
+    <section class="card black sm"><div class="lab">機場集合</div><div class="num">10:55</div><div class="sub center">桃園第二航廈　釜山航空櫃台</div></section>
+
+    <section class="card w2"><h2>常用連結</h2><div class="quick">
+      ${big(I.pen,'填電子入境卡',U.arrival)}${big(I.plane,'查去程航班',U.dep)}${big(I.sun,'釜山天氣',U.wx)}
+      ${big(I.pin,'飯店地圖',U.h1)}${big(I.chat,'翻譯 Papago',U.papago)}${big(I.coin,'退稅說明',U.tax)}</div></section>
+
+    <section class="card"><h2>五個階段</h2><div class="rows">
+      ${Object.keys(S).map(k=>{const c=count(k),lab=TABS.find(x=>x[0]===k)[1];return `<button class="srow" data-go="${k}"><b>${lab}</b><span class="prog"><i style="width:${c[0]/c[1]*100}%"></i></span><span class="pill ${c[0]===c[1]?'l':'n'}">${c[0]} / ${c[1]}</span></button>`}).join('')}</div>
+    </section>
+
+    <section class="card w2"><h2>每日行程</h2>
+      <div class="days" role="tablist" aria-label="日期">${DAYS.map((x,i)=>`<button class="day" role="tab" aria-selected="${i===day}" data-day="${i}"><b>${x.d}</b><span>週${x.w}</span></button>`).join('')}</div>
+      <div class="meals"><span class="pill n">第 ${day+1} 天</span><span class="pill">氣溫 ${D.t}</span></div>
+      <div class="rows">${D.stops.map((s,i)=>`<div class="kv"><div><b>${i+1}　${s[0]}</b></div>${s[1]?link(['地圖',s[1]],'lt'):''}</div>`).join('')}</div>
+      <div class="meals">${D.meals.map(m=>`<span class="pill ${m.includes('自理')?'d':''}">${m}</span>`).join('')}</div>
+    </section>
+
+    <section class="card"><h2>航班與飯店</h2><div class="rows">
+      <div class="kv"><div><b>去程 BX 572</b><div class="sub">11/26　13:25 桃園 → 17:00 釜山</div></div>${link(['查航班',U.dep],'lt')}</div>
+      <div class="kv"><div><b>回程 BX 575</b><div class="sub">11/30　15:00 釜山 → 16:40 桃園</div></div>${link(['查航班',U.arr],'lt')}</div>
+      <div class="kv"><div><b>Crown Harbor Hotel Busan</b><div class="sub">11/26 – 28　住 3 晚</div></div>${link(['地圖',U.h1],'lt')}</div>
+      <div class="kv"><div><b>Lotte Hotel &amp; Resort Gimhae</b><div class="sub">11/29　住 1 晚</div></div>${link(['地圖',U.h2],'lt')}</div></div>
+    </section>
+
+    <section class="card"><h2>電話</h2><div class="rows">
+      <div class="kv"><div><b>領隊　徐健誠</b></div>${tel('0929-222-982','0929222982')}</div>
+      <div class="kv"><div><b>送機　林武助</b></div>${tel('0910-127-490','0910127490')}</div>
+      <div class="kv"><div><b>旅行社台北　王小姐</b></div>${tel('0961-094-200','0961094200')}</div>
+      <div class="kv"><div><b>旅行社韓國　LALA</b></div>${tel('010-5193-6822','+821051936822')}</div>
+      <div class="kv"><div><b>韓國報警 / 救護車</b></div>${tel('112','112')}${tel('119','119')}</div>
+      <div class="kv"><div><b>旅遊諮詢（中文）</b></div>${tel('1330','1330')}</div>
+      <div class="kv"><div><b>駐釜山辦事處急難專線</b></div>${tel('010-4537-7961','+821045377961')}</div></div>
+    </section>
+
+    <section class="card"><h2>備忘錄</h2><textarea id="memo" aria-label="備忘錄" placeholder="想買的東西、要問領隊的事">${esc(st.memo)}</textarea>
+      <div class="btnrow"><button class="btn" id="resetBtn" aria-expanded="${resetOpen}">重設全部勾選</button></div>
+      <div class="exp ${resetOpen?'open':''}" id="resetExp"><div><div class="card black" style="border-radius:28px">
+        <div class="lab">清除所有勾選</div><div class="delta">${d} → 0<small>項</small></div>
+        <div class="btnrow"><button class="btn pri" id="resetYes">確定重設</button><button class="btn" id="resetNo">保留</button></div></div></div></div>
+    </section>
+  </div>`;
+}
+function listView(id){
+  const sec=S[id],[d,t]=count(id),only=!!st.only[id];
+  let html=`<h1>${sec.title}</h1><div class="when sub">${sec.when}</div>
+  <div class="toolbar"><span class="pill ${d===t?'l':'n'}" style="min-height:48px;padding:0 20px;min-width:110px">完成 ${d} / ${t}</span>
+  <div class="seg" id="filt" aria-label="顯示範圍"></div></div><div class="grid">`;
+  sec.cards.forEach(c=>{
+    if(c.todo){
+      const its=c.todo.filter(i=>!only||!st.done[i[0]]);if(!its.length)return;
+      const gd=c.todo.filter(i=>st.done[i[0]]).length;
+      html+=`<section class="card"><div class="grp"><h2>${c.h}</h2><span class="pill ${gd===c.todo.length?'l':''}">${gd} / ${c.todo.length}</span></div><div class="rows">${its.map(i=>itemHTML(i)).join('')}</div></section>`;
+    }else if(c.rules){
+      html+=`<section class="card"><h2>${c.h}</h2><div class="rows">${c.rules.map(ruleHTML).join('')}</div>${c.link?`<div class="btnrow">${link(c.link)}</div>`:''}</section>`;
+    }else if(c.links){
+      html+=`<section class="card"><h2>${c.h}</h2><div class="quick">${c.links.map(l=>`<a class="big-lk" style="min-height:64px" href="${esc(l[1])}" target="_blank" rel="noopener">${l[0]}</a>`).join('')}</div></section>`;
+    }
+  });
+  if(id==='pack'){
+    const cs=st.custom.filter(c=>!only||!st.done[c.id]);
+    html+=`<section class="card"><div class="grp"><h2>我自己要帶的</h2><span class="pill">${st.custom.length} 項</span></div>
+    <div class="rows">${cs.map(c=>itemHTML([c.id,c.t],true)).join('')}</div>
+    <form class="field" id="addf"><input id="addi" aria-label="新增要帶的東西" placeholder="例如：泳衣、暖暖包" maxlength="40"><button class="btn pri" type="submit">加入清單</button></form></section>`;
+  }
+  if(only&&d===t)html+=`<section class="card"><div class="empty"><div class="num" style="font-size:calc(30px*var(--k))">這一頁都做完了</div><button class="btn pri" id="showAll">顯示全部</button></div></section>`;
+  return html+'</div>';
+}
+function render(keep){
+  const y=scrollY;
+  $('#main').innerHTML=`<div class="view" ${keep?'style="animation:none"':''}>${tab==='home'?home():listView(tab)}</div>`;
+  if(tab!=='home')seg($('#filt'),['全部','還沒做的'],st.only[tab]?1:0,i=>{st.only[tab]=!!i;save();render(true)});
+  if(keep)scrollTo(0,y);
+}
+function go(k,focusId){
+  tab=k;tabsCtl.set(TABS.findIndex(x=>x[0]===k));
+  try{history.replaceState(null,'','#'+k)}catch(e){}
+  render();scrollTo(0,0);
+  if(focusId){const el=document.querySelector(`[data-item="${focusId}"]`);if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1600)}}
+}
+function toggle(id){
+  if(st.done[id])delete st.done[id];else st.done[id]=true;save();
+  const b=document.querySelector(`[data-id="${id}"]`);if(b)b.setAttribute('aria-pressed',!!st.done[id]);
+  setTimeout(()=>render(true),280);
+}
+$('#main').addEventListener('click',e=>{
+  const q=s=>e.target.closest(s);let x;
+  if(x=q('[data-del]')){st.custom=st.custom.filter(c=>c.id!==x.dataset.del);delete st.done[x.dataset.del];save();render(true);return}
+  if(x=q('[data-id]')){toggle(x.dataset.id);return}
+  if(x=q('[data-go]')){go(x.dataset.go);return}
+  if(x=q('[data-day]')){day=+x.dataset.day;render(true);return}
+  if(q('#heroGo')||q('#heroGo2')){const n=nextTodo();if(n){st.only[n.k]=false;go(n.k,n.i[0])}return}
+  if(q('#resetBtn')){resetOpen=!resetOpen;$('#resetExp').classList.toggle('open',resetOpen);$('#resetBtn').setAttribute('aria-expanded',resetOpen);return}
+  if(q('#resetNo')){resetOpen=false;$('#resetExp').classList.remove('open');return}
+  if(q('#resetYes')){st.done={};resetOpen=false;save();render(true);return}
+  if(q('#showAll')){st.only[tab]=false;save();render(true);return}
+});
+$('#main').addEventListener('submit',e=>{e.preventDefault();const v=$('#addi').value.trim();if(!v)return;
+  st.custom.push({id:'c'+Date.now(),t:v});save();render(true);$('#addi').focus()});
+$('#main').addEventListener('input',e=>{if(e.target.id==='memo'){st.memo=e.target.value;save()}});
+/* 禁止選取與反白 */
+const editable=t=>t&&t.closest&&t.closest('input,textarea');
+document.addEventListener('selectstart',e=>{if(!editable(e.target))e.preventDefault()});
+document.addEventListener('dragstart',e=>{if(!editable(e.target))e.preventDefault()});
+document.addEventListener('mousedown',e=>{if(e.detail>1&&!editable(e.target))e.preventDefault()});
+
+function applyTheme(){
+  document.documentElement.classList.toggle('dark',!!st.dark);document.documentElement.classList.toggle('big',!!st.big);
+  $('#tDark').setAttribute('aria-pressed',!!st.dark);$('#tBig').setAttribute('aria-pressed',!!st.big);
+}
+$('#tDark').onclick=()=>{st.dark=!st.dark;save();applyTheme()};
+$('#tBig').onclick=()=>{st.big=!st.big;save();applyTheme()};
+const fromHash=()=>{const h=location.hash.slice(1);return TABS.some(x=>x[0]===h)?h:'home'};
+tab=fromHash();
+const tabsCtl=seg($('#tabs'),TABS.map(x=>x[1]),TABS.findIndex(x=>x[0]===tab),i=>go(TABS[i][0]));
+addEventListener('hashchange',()=>{const h=fromHash();if(h!==tab)go(h)});
+applyTheme();render();
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
